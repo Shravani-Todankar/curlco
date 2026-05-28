@@ -136,7 +136,7 @@
           <div class="pdp-main"><img id="pdp-main-img" src="${images[0]}" alt="${item.title}"></div>
         </div>
         <div class="pdp-info">
-          ${item.badge?`<span class="chip" style="background:var(--aubergine);color:var(--cream);border-color:var(--aubergine)">${item.badge}</span>`:''}
+          ${item.badge?`<span class="chip" style="background:var(--ink);color:var(--offwhite);border-color:var(--ink);height:30px;padding:0 14px;font-size:.62rem">${item.badge}</span>`:''}
           <h1>${item.title}</h1>
           <div class="product-sub">${item.subtitle||''}</div>
           <div class="pdp-rating"><span class="stars">${stars(item.rating||4.7)}</span><span>${item.rating||4.7} (${item.reviews||120} reviews)</span><a href="#reviews">Read reviews</a></div>
@@ -148,11 +148,11 @@
           <div class="variant-row" id="pdp-variants">
             <span class="variant-chip active">${item.subtitle||'Default'}</span>
           </div>
-          <div style="display:flex;gap:12px;align-items:center;margin:18px 0">
+          <div style="display:flex;gap:14px;align-items:center;margin:22px 0">
             <div class="qty-stepper" id="pdp-qty">
               <button data-d="-1">-</button><span>1</span><button data-d="1">+</button>
             </div>
-            <span style="font-size:.85rem;color:var(--muted)">In stock — ships in 2-3 days</span>
+            <span style="font-family:var(--ff-mono);font-size:.7rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase">In stock — ships in 2-3 days</span>
           </div>
           <div class="pdp-buy-row">
             <button class="btn btn-primary btn-lg" id="pdp-add" data-add="${item.id}">Add to cart</button>
@@ -184,11 +184,11 @@
       const fbtTotal = fbtList.reduce((s,p)=>s+p.price,0);
       const fbtMrp = fbtList.reduce((s,p)=>s+(p.mrp||p.price),0);
       const save = fbtMrp - fbtTotal;
-      const html = `<h2 style="margin-top:64px">Frequently bought together</h2>
+      const html = `<span class="eyebrow" style="margin-top:80px;display:inline-block">Frequently bought together</span><h2 style="margin-bottom:.3em">Build the full <em>routine</em>.</h2>
         <div class="fbt">
           ${fbtList.map((p,i)=>`<div class="fbt-prod"><img src="${p.images[0]}"><div>${p.title}</div><strong>${fmt(p.price)}</strong></div>${i<fbtList.length-1?'<div class="fbt-plus">+</div>':''}`).join('')}
           <div class="fbt-cta">
-            <div style="margin-bottom:8px">Total <strong>${fmt(fbtTotal)}</strong> <span class="off">Save ${fmt(save)}</span></div>
+            <div style="margin-bottom:10px;font-family:var(--ff-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase">Total <strong style="font-family:var(--ff-serif);font-size:1.2rem;font-weight:400;letter-spacing:-0.01em">${fmt(fbtTotal)}</strong> <span class="off">Save ${fmt(save)}</span></div>
             <button class="btn btn-primary btn-block" id="fbt-add">Add all to cart</button>
           </div>
         </div>`;
@@ -197,7 +197,7 @@
         fbtList.forEach(p=>window.CurlcoCart.add(p.id,1));
       });
       // Recently viewed / routine
-      const routineHTML = `<h2 style="margin-top:64px">Complete your routine</h2>
+      const routineHTML = `<span class="eyebrow" style="margin-top:80px;display:inline-block">Complete your routine</span><h2 style="margin-bottom:.4em">Pair it <em>with</em>.</h2>
         <div class="product-grid">${others.concat(ALL.slice(3,5)).slice(0,4).map(cardHTML).join('')}</div>`;
       wrap.insertAdjacentHTML('beforeend', routineHTML);
     }
@@ -207,7 +207,7 @@
       const list = rev.filter(r=>r.product===item.id).concat(rev.slice(0,3)).slice(0,6);
       const block = document.createElement('section');
       block.id='reviews';
-      block.innerHTML = `<h2 style="margin-top:64px">Reviews (${item.reviews||list.length})</h2>
+      block.innerHTML = `<span class="eyebrow" style="margin-top:80px;display:inline-block">Reviews · ${item.reviews||list.length}</span><h2 style="margin-bottom:.4em">Curlfriends <em>love</em> us.</h2>
         <div class="review-wall">${list.map(r=>`<article class="review-card"><div class="stars">${stars(r.rating)}</div><h4>${r.title}</h4><p>${r.text}</p><div class="meta">— ${r.name}${r.verified?' <span class="verified-tag">Verified buyer</span>':''}</div>${r.image?`<img src="${r.image}" alt="${r.name}" loading="lazy">`:''}</article>`).join('')}</div>`;
       wrap.appendChild(block);
     });

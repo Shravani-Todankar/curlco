@@ -19,11 +19,24 @@
       ${r.image?`<img src="${r.image}" alt="Review from ${r.name}" loading="lazy" data-light>`:''}
     </article>`;
   }
+  function featCard(r){
+    return `<article class="review-card review-featured">
+      <div class="stars">${stars(r.rating)}</div>
+      <h4>${r.title}</h4>
+      <p>${r.text}</p>
+      <div class="meta">— ${r.name}${r.verified?' <span class="verified-tag">Verified buyer</span>':''} · ${r.date||''}</div>
+      ${r.image?`<img src="${r.image}" alt="Review from ${r.name}" loading="lazy" data-light>`:''}
+    </article>`;
+  }
   function render(list){
     const wall = document.getElementById('review-wall');
     if(wall) wall.innerHTML = list.map(card).join('');
     const home = document.getElementById('home-reviews');
-    if(home) home.innerHTML = list.slice(0,9).map(card).join('');
+    if(home){
+      const head = list[0];
+      const rest = list.slice(1,9);
+      home.innerHTML = (head?featCard(head):'') + rest.map(card).join('');
+    }
     window.CurlcoRender?.initReveal();
   }
 
