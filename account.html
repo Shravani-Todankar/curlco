@@ -15,15 +15,15 @@
 
 <main>
 <section class="section">
-  <div class="container" style="max-width:880px">
+  <div class="container container--narrow">
     <h1>My Account</h1>
-    <div class="checkout-grid">
+    <div class="checkout-grid checkout-grid--top">
       <form class="checkout-step" data-form>
         <h3>Sign in</h3>
         <div class="field"><label>Email</label><input type="email" required></div>
         <div class="field"><label>Password</label><input type="password" required></div>
         <button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
-        <p style="margin-top:14px"><a href="#">Forgot password?</a></p>
+        <p class="form-link"><a href="#">Forgot password?</a></p>
       </form>
       <form class="checkout-step" data-form>
         <h3>Create account</h3>
@@ -33,7 +33,7 @@
         <button class="btn btn-secondary btn-lg btn-block" type="submit">Create account</button>
       </form>
     </div>
-    <div class="checkout-step" id="wishlist" style="margin-top:32px">
+    <div class="checkout-step wishlist-block" id="wishlist">
       <h3>My wishlist</h3>
       <p class="muted">Hearts you've added across the site.</p>
       <div class="product-grid" id="wishlist-grid"></div>

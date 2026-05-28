@@ -15,11 +15,11 @@
 
 <main>
 <section class="section">
-  <div class="container" style="max-width:1080px">
+  <div class="container container--mid">
     <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cart.html">Cart</a><span>/</span>Checkout</nav>
     <h1>Secure checkout</h1>
     <p class="muted">256-bit SSL · Razorpay · Easy 7-day returns</p>
-    <form class="checkout-grid" id="checkout-form" data-form style="margin-top:24px">
+    <form class="checkout-grid checkout-grid--top" id="checkout-form" data-form>
       <div>
         <div class="checkout-step">
           <h3>1 · Contact</h3>
@@ -58,7 +58,7 @@
             <label><input type="radio" name="pay"> <strong>Cash on delivery</strong> · ₹49 fee may apply</label>
           </div>
           <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="setTimeout(()=>location.href='thank-you.html',400)">Place order</button>
-          <p style="font-size:.78rem;color:var(--muted);margin-top:12px;text-align:center">Your data is encrypted. Razorpay PCI-DSS compliant.</p>
+          <p class="checkout-note">Your data is encrypted. Razorpay PCI-DSS compliant.</p>
         </div>
       </div>
       <aside class="order-summary" id="co-summary"></aside>

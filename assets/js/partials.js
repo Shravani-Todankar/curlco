@@ -9,7 +9,7 @@
     <button class="hamburger" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
     <a href="{ROOT}index.html" class="logo"><img src="{ROOT}assets/img/logo.png" alt="The Curl Co" width="120" height="42"></a>
     <nav class="nav" aria-label="Primary">
-      <ul style="display:flex;gap:22px;align-items:center">
+      <ul class="nav-list">
         <li><a href="{ROOT}shop.html">Shop All</a>
           <div class="mega"><div class="mega-grid">
             <div><h4>By Concern</h4><a href="{ROOT}shop.html?c=frizz">Frizz control</a><a href="{ROOT}shop.html?c=definition">Definition</a><a href="{ROOT}shop.html?c=moisture">Moisture</a><a href="{ROOT}shop.html?c=volume">Volume</a></div>
