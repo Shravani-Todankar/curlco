@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" data-root="">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout | The Curl Co</title>
+<meta name="description" content="Secure checkout. UPI, cards, COD across India.">
+<link rel="canonical" href="https://thecurlco.in/checkout">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/components.css"><link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+<div id="site-header-slot"></div>
+
+<main>
+<section class="section">
+  <div class="container" style="max-width:1080px">
+    <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cart.html">Cart</a><span>/</span>Checkout</nav>
+    <h1>Secure checkout</h1>
+    <p class="muted">256-bit SSL · Razorpay · Easy 7-day returns</p>
+    <form class="checkout-grid" id="checkout-form" data-form style="margin-top:24px">
+      <div>
+        <div class="checkout-step">
+          <h3>1 · Contact</h3>
+          <div class="field-row">
+            <div class="field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
+            <div class="field"><label>Mobile (10-digit)</label><input type="tel" pattern="[0-9]{10}" required placeholder="9876543210"></div>
+          </div>
+        </div>
+        <div class="checkout-step">
+          <h3>2 · Shipping address</h3>
+          <div class="field-row">
+            <div class="field"><label>First name</label><input required></div>
+            <div class="field"><label>Last name</label><input required></div>
+          </div>
+          <div class="field"><label>Address line 1</label><input required></div>
+          <div class="field"><label>Address line 2</label><input></div>
+          <div class="field-row">
+            <div class="field"><label>City</label><input required></div>
+            <div class="field"><label>State</label>
+              <select required>
+                <option>Maharashtra</option><option>Karnataka</option><option>Delhi</option><option>Tamil Nadu</option><option>Kerala</option><option>Gujarat</option><option>West Bengal</option><option>Telangana</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>PIN code</label><input pattern="[0-9]{6}" required></div>
+            <div class="field"><label>Country</label><input value="India" readonly></div>
+          </div>
+        </div>
+        <div class="checkout-step">
+          <h3>3 · Payment</h3>
+          <div class="payment-opts">
+            <label><input type="radio" name="pay" checked> <strong>UPI</strong> · GPay / PhonePe / Paytm</label>
+            <label><input type="radio" name="pay"> <strong>Credit / Debit card</strong></label>
+            <label><input type="radio" name="pay"> <strong>Net banking</strong></label>
+            <label><input type="radio" name="pay"> <strong>Cash on delivery</strong> · ₹49 fee may apply</label>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="setTimeout(()=>location.href='thank-you.html',400)">Place order</button>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:12px;text-align:center">Your data is encrypted. Razorpay PCI-DSS compliant.</p>
+        </div>
+      </div>
+      <aside class="order-summary" id="co-summary"></aside>
+    </form>
+  </div>
+</section>
+</main>
+
+<div id="site-footer-slot"></div>
+<script src="assets/js/partials.js" defer></script>
+<script src="assets/js/cart.js" defer></script>
+<script src="assets/js/products.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await window.CurlcoRender.loadAll();
+  const fmt = window.CurlcoCart.fmt;
+  let items = window.CurlcoCart.getItems();
+  if(!items.length){
+    // demo item
+    const p = window.CurlcoProducts.all.find(x=>x.id==='strong-hold-cream');
+    if(p) window.CurlcoCart.add(p.id,1);
+    items = window.CurlcoCart.getItems();
+  }
+  const sub = window.CurlcoCart.getSubtotal();
+  const ship = sub>=599?0:49;
+  document.getElementById('co-summary').innerHTML = `
+    <h3 style="margin-top:0">Order summary</h3>
+    <div style="max-height:280px;overflow-y:auto;margin-bottom:14px">
+      ${items.map(i=>`<div class="cart-item" style="grid-template-columns:60px 1fr auto;padding:10px 0"><img src="${i.image}" style="width:60px;height:70px"><div><div style="font-size:.88rem">${i.title}</div><div class="sub">Qty ${i.qty}</div></div><strong style="font-size:.9rem">${fmt(i.qty*i.price)}</strong></div>`).join('')}
+    </div>
+    <div class="promo-row"><input placeholder="Promo code"><button class="btn btn-ghost btn-sm" type="button">Apply</button></div>
+    <div class="summary-line"><span>Subtotal</span><span>${fmt(sub)}</span></div>
+    <div class="summary-line"><span>Shipping</span><span>${ship?fmt(ship):'FREE'}</span></div>
+    <div class="summary-line total"><span>Total</span><strong>${fmt(sub+ship)}</strong></div>
+    <div style="display:flex;gap:8px;margin-top:14px;font-size:.78rem;color:var(--muted)">🔒 SSL secure · 💳 Razorpay · 🔄 7-day returns</div>`;
+});
+</script>
+</body></html>

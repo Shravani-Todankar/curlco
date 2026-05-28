@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-root="">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Cart | The Curl Co</title>
+<meta name="description" content="Review your curl care items before checkout. Free shipping over ₹599, COD across India.">
+<link rel="canonical" href="https://thecurlco.in/cart">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/components.css"><link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+<div id="site-header-slot"></div>
+
+<main>
+<section class="section">
+  <div class="container" style="max-width:980px">
+    <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span>Cart</nav>
+    <h1>Your cart</h1>
+    <div class="checkout-grid" style="margin-top:24px">
+      <div class="checkout-step" id="cart-page-body"></div>
+      <aside class="order-summary" id="cart-page-summary"></aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<div id="site-footer-slot"></div>
+<script src="assets/js/partials.js" defer></script>
+<script src="assets/js/cart.js" defer></script>
+<script src="assets/js/products.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await window.CurlcoRender.loadAll();
+  function fmt(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+  function render(){
+    const body = document.getElementById('cart-page-body');
+    const sum = document.getElementById('cart-page-summary');
+    const items = window.CurlcoCart.getItems();
+    if(!items.length){
+      body.innerHTML = '<div style="text-align:center;padding:40px 0"><p>Your cart is empty.</p><a class="btn btn-primary" href="shop.html">Shop the routine</a></div>';
+      sum.style.display='none';return;
+    }
+    sum.style.display='block';
+    body.innerHTML = items.map(i=>`<div class="cart-item"><img src="${i.image}"><div><h4>${i.title}</h4><div class="sub">${i.variant||''}</div><div class="qty"><button data-act="dec" data-key="${i.key}">-</button><span>${i.qty}</span><button data-act="inc" data-key="${i.key}">+</button></div></div><div class="end"><strong>${fmt(i.qty*i.price)}</strong><button class="rm" data-act="rm" data-key="${i.key}">Remove</button></div></div>`).join('');
+    const sub = window.CurlcoCart.getSubtotal();
+    const ship = sub >= 599 ? 0 : 49;
+    sum.innerHTML = `<h3 style="margin-top:0">Order summary</h3>
+      <div class="summary-line"><span>Subtotal</span><span>${fmt(sub)}</span></div>
+      <div class="summary-line"><span>Shipping</span><span>${ship?fmt(ship):'FREE'}</span></div>
+      <div class="summary-line total"><span>Total</span><strong>${fmt(sub+ship)}</strong></div>
+      <a href="checkout.html" class="btn btn-primary btn-block btn-lg" style="margin-top:14px">Checkout</a>
+      <a href="shop.html" class="btn btn-ghost btn-block" style="margin-top:8px">Continue shopping</a>`;
+  }
+  render();
+  document.addEventListener('click', e=>{ if(e.target.closest('[data-act]')) setTimeout(render,50); });
+});
+</script>
+</body></html>
