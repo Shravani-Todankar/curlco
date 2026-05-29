@@ -236,7 +236,6 @@ function renderHeader(){
             <a class="nav-link" href="about-us.html">About</a>
             <a class="nav-link" href="blog.html">Blog</a>
           </nav>
-          <a class="nav-logo nav-mobile-only" href="index.html"><img src="${LOGO_URL}" alt="The Curl Co."></a>
         </div>
         <div class="nav-zone-right">
           <button class="nav-icon-btn" id="search-toggle" aria-label="Search">
