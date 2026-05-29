@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Products — The Curl Co.</title>
+  <meta name="description" content="Shop the complete range of The Curl Co. curl care — shampoos, conditioners, creams, gels, serums, and combos.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <section class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a> / All Products</div>
+    <h1>All Products</h1>
+    <p>Every curl care essential, in one place.</p>
+  </section>
+
+  <div class="shop-layout">
+    <aside class="filter-sidebar" id="filter-sidebar">
+      <h3>Filter</h3>
+      <div class="filter-group">
+        <h4>Hair Type</h4>
+        <div class="filter-chips" data-group="category">
+          <button class="filter-chip active" data-value="all">All</button>
+          <button class="filter-chip" data-value="wavy">Wavy</button>
+          <button class="filter-chip" data-value="curly">Curly</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h4>Product Type</h4>
+        <div class="filter-chips" data-group="type">
+          <button class="filter-chip active" data-value="all">All</button>
+          <button class="filter-chip" data-value="wash">Wash</button>
+          <button class="filter-chip" data-value="styling">Styling</button>
+          <button class="filter-chip" data-value="treatment">Treatment</button>
+          <button class="filter-chip" data-value="combo">Combo</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h4>Max Price</h4>
+        <input type="range" id="price-range" min="0" max="3900" step="100" value="3900">
+        <span class="price-output" id="price-output">Up to ₹3,900</span>
+      </div>
+      <button class="clear-all-btn" id="clear-all">Clear All Filters</button>
+    </aside>
+
+    <main class="shop-main">
+      <div class="shop-toolbar">
+        <div class="shop-count" id="shop-count">Showing 0 products</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn btn-sm btn-outline mobile-filter-btn" id="mobile-filter-btn">Filter ⚙</button>
+          <select class="sort-select" id="sort-select">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+            <option value="reviews">Most Reviewed</option>
+          </select>
+        </div>
+      </div>
+      <div class="active-chips" id="active-chips"></div>
+      <div class="shop-grid" id="shop-grid"></div>
+    </main>
+  </div>
+
+  <div data-include="footer"></div>
+
+  <script>
+    let activeFilters = { category: 'all', type: 'all', price: 3900 };
+    let activeSort = 'featured';
+
+    function applyFilters(){
+      let list = ALL_ITEMS.slice();
+      if (activeFilters.category !== 'all') list = list.filter(p => p.category && p.category.includes(activeFilters.category));
+      if (activeFilters.type !== 'all') list = list.filter(p => p.type === activeFilters.type);
+      list = list.filter(p => p.price <= activeFilters.price);
+
+      if (activeSort === 'price-asc') list.sort((a,b) => a.price - b.price);
+      else if (activeSort === 'price-desc') list.sort((a,b) => b.price - a.price);
+      else if (activeSort === 'reviews') list.sort((a,b) => b.reviews - a.reviews);
+
+      qs('#shop-grid').innerHTML = list.length === 0
+        ? `<div style="grid-column:1/-1; text-align:center; padding:60px 0; color:var(--walnut-lt);"><p>No products match your filters.</p></div>`
+        : list.map(p => productCardHTML(p, p.type === 'combo')).join('');
+      qs('#shop-count').textContent = `Showing ${list.length} product${list.length !== 1 ? 's' : ''}`;
+
+      const chips = [];
+      if (activeFilters.category !== 'all') chips.push({k:'category', v:activeFilters.category, label:activeFilters.category});
+      if (activeFilters.type !== 'all') chips.push({k:'type', v:activeFilters.type, label:activeFilters.type});
+      if (activeFilters.price < 3900) chips.push({k:'price', v:3900, label:`Up to ${formatPrice(activeFilters.price)}`});
+      qs('#active-chips').innerHTML = chips.map(c => `<span class="active-chip">${c.label} <span class="x" onclick="clearFilter('${c.k}')">✕</span></span>`).join('');
+    }
+
+    function clearFilter(k){
+      if (k === 'price') { activeFilters.price = 3900; qs('#price-range').value = 3900; qs('#price-output').textContent = 'Up to ₹3,900'; }
+      else {
+        activeFilters[k] = 'all';
+        qsa(`[data-group="${k}"] .filter-chip`).forEach(c => c.classList.toggle('active', c.dataset.value === 'all'));
+      }
+      applyFilters();
+    }
+
+    function onPageReady(){
+      qsa('.filter-chips').forEach(group => {
+        group.addEventListener('click', e => {
+          const chip = e.target.closest('.filter-chip');
+          if (!chip) return;
+          qsa('.filter-chip', group).forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeFilters[group.dataset.group] = chip.dataset.value;
+          applyFilters();
+        });
+      });
+      qs('#price-range').addEventListener('input', e => {
+        activeFilters.price = parseInt(e.target.value);
+        qs('#price-output').textContent = 'Up to ' + formatPrice(activeFilters.price);
+        applyFilters();
+      });
+      qs('#sort-select').addEventListener('change', e => { activeSort = e.target.value; applyFilters(); });
+      qs('#clear-all').addEventListener('click', () => {
+        activeFilters = { category:'all', type:'all', price:3900 };
+        qs('#price-range').value = 3900;
+        qs('#price-output').textContent = 'Up to ₹3,900';
+        qsa('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.value === 'all'));
+        applyFilters();
+      });
+      qs('#mobile-filter-btn').addEventListener('click', () => qs('#filter-sidebar').classList.toggle('open'));
+      applyFilters();
+    }
+  </script>
+</body>
+</html>

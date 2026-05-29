@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Use — The Curl Co.</title>
+  <meta name="description" content="Watch tutorials and learn how to use The Curl Co. products for your best wash day yet.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <section class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a> / How to Use</div>
+    <h1>How to Use Your Curl Co. Products</h1>
+    <p>Your best wash day is one tutorial away.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="video-grid" id="video-grid"></div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Routine</span>
+        <h2>Your Simple Curl Routine</h2>
+        <p>Three steps. One wash day. Curls that last.</p>
+      </div>
+      <div class="routine-steps">
+        <div class="routine-step">
+          <div class="routine-numeral">01</div>
+          <div>
+            <h3>Cleanse</h3>
+            <p>Wet hair thoroughly. Massage <strong>Curl Shampoo</strong> into the scalp in small circles — never pile or scrub the lengths. Let the foam slip through your curls as you rinse. Rinse with cool water to keep the cuticle smooth and shine intact. Repeat only if needed (heavy buildup or after a workout).</p>
+          </div>
+        </div>
+        <div class="routine-step">
+          <div class="routine-numeral">02</div>
+          <div>
+            <h3>Nourish</h3>
+            <p>While hair is still soaking wet, apply <strong>Curl Conditioner</strong> from mid-lengths to ends. Detangle with fingers or a wide-tooth comb under the shower spray — never on dry hair. Leave on for 3–5 minutes, then rinse with cool water (leave a little in if your curls are extra thirsty).</p>
+          </div>
+        </div>
+        <div class="routine-step">
+          <div class="routine-numeral">03</div>
+          <div>
+            <h3>Style</h3>
+            <p>On dripping-wet hair, smooth a generous palmful of <strong>Curl Cream or Curl Gel</strong> through the lengths using praying-hands and scrunching motions. For extra shine, finish with two drops of <strong>Frizz Control Serum</strong>. Plop in a microfibre towel for 15 minutes, then air-dry or diffuse on low.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div data-include="footer"></div>
+
+  <script>
+    const VIDEOS = [
+      { title:"Hydrating Curl Gel", tag:"Styling", src:"https://cdn.shopify.com/videos/c/o/v/b6da4d921a8b4207bc231155fb45586c.mp4", poster:"https://thecurlco.in/cdn/shop/files/IMG_1959.png?v=1750831757" },
+      { title:"Strong Hold Curl Cream", tag:"Styling", src:"https://cdn.shopify.com/videos/c/o/v/391b23ae76774cc996de6129399b214e.mp4", poster:"https://thecurlco.in/cdn/shop/files/WhatsApp_Image_2025-01-18_at_2.25.20_PM.jpg?v=1750770541" },
+      { title:"Soft Hold Curl Cream", tag:"Styling", src:"https://cdn.shopify.com/videos/c/o/v/f3561124edea42c6b60c4dfae10da135.mp4", poster:"https://thecurlco.in/cdn/shop/files/IMG_1968_a27cde42-4d9b-4dfe-bdaa-7ba9591aed05.png?v=1750840838" },
+      { title:"Frizz Control Serum", tag:"Treatment", src:"https://cdn.shopify.com/videos/c/o/v/f9af4c29a54e49ec9396e4202a855a72.mp4", poster:"https://thecurlco.in/cdn/shop/files/Curlco_hair_serum.jpg?v=1762514603" }
+    ];
+
+    function onPageReady(){
+      qs('#video-grid').innerHTML = VIDEOS.map((v, i) => `
+        <div class="video-card">
+          <div class="video-poster" data-i="${i}">
+            <img src="${v.poster}" alt="${v.title} tutorial">
+            <div class="play-overlay"><div class="play-circle" aria-label="Play"></div></div>
+          </div>
+          <div class="video-body">
+            <h3>${v.title}</h3>
+            <span class="video-tag">${v.tag}</span>
+          </div>
+        </div>`).join('');
+
+      qsa('.video-poster').forEach(p => p.addEventListener('click', () => {
+        const i = parseInt(p.dataset.i);
+        const v = VIDEOS[i];
+        p.outerHTML = `<video controls autoplay playsinline src="${v.src}" poster="${v.poster}"></video>`;
+      }));
+    }
+  </script>
+</body>
+</html>

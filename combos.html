@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combos & Kits — The Curl Co.</title>
+  <meta name="description" content="Build your perfect curl routine with curated combos. Better value, less guesswork.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <section class="combos-hero">
+    <span class="eyebrow" style="color:var(--gold-lt);">Curl Kits</span>
+    <h1>Build Your Perfect Curl Routine</h1>
+    <p>Curated combinations. Better value. Less guesswork.</p>
+    <p class="combos-trust">✨ All combos crafted by curl experts</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="shop-grid" id="combos-grid"></div>
+      <div style="text-align:center; margin-top:48px;">
+        <p style="color:var(--walnut-mid);">Looking for individual products? <a href="all-products.html" style="color:var(--terracotta); text-decoration:underline; font-weight:500;">Shop singles →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div data-include="footer"></div>
+
+  <script>
+    function onPageReady(){
+      qs('#combos-grid').innerHTML = COMBOS.map(p => productCardHTML(p, true)).join('');
+    }
+  </script>
+</body>
+</html>

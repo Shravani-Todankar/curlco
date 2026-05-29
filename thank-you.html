@@ -1,58 +1,85 @@
-<!doctype html>
-<html lang="en" data-root="">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Thank You! | Order Confirmed | The Curl Co</title>
-<meta name="description" content="Your curl routine is on its way. Track your order, share & earn.">
-<meta name="robots" content="noindex">
-<link rel="canonical" href="https://thecurlco.in/">
-<link rel="icon" href="assets/img/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/components.css"><link rel="stylesheet" href="assets/css/responsive.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Placed! — The Curl Co.</title>
+  <meta name="description" content="Thanks for your order. Your curls are going to love this.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-<div id="site-header-slot"></div>
+  <div data-include="header"></div>
 
-<main>
-<section class="section">
-  <div class="container container--xs text-center">
-    <div class="success-badge"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <span class="eyebrow eyebrow--bare">Thank you, curlfriend</span>
-    <h1>Your curls are on the <em>way</em>.</h1>
-    <p class="lead lead--center">We've sent a confirmation to your inbox. Track your order with the link below.</p>
-    <div class="soft-panel order-meta">
-      <div class="info-row"><span>Order ID</span><strong>#TCC-2024-39281</strong></div>
-      <div class="info-row"><span>Estimated delivery</span><strong>3-5 business days</strong></div>
-      <div class="info-row"><span>Payment</span><strong>UPI · Paid</strong></div>
+  <div class="thanks-wrap">
+    <div id="confetti-host"></div>
+    <div class="thanks-check">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
     </div>
-    <div class="btn-row">
-      <a href="track-order.html" class="btn btn-primary">Track order</a>
-      <a href="https://instagram.com/thecurlco" class="btn btn-outline">Tag us @thecurlco</a>
+    <h1>Your Curls Are Going to Love This! 🌀</h1>
+    <p class="thanks-sub">Order confirmed! Tracking link coming to your WhatsApp & email.</p>
+    <div class="thanks-order-id" id="thanks-order-id">#TCC-00000</div>
+    <span class="thanks-eta">📦 Estimated delivery: 3–5 business days</span>
+
+    <div class="thanks-items" id="thanks-items"></div>
+
+    <div class="thanks-ctas">
+      <a class="btn btn-primary btn-lg" href="all-products.html">Continue Shopping →</a>
+      <a class="btn btn-outline btn-lg" href="how-to-use.html">Watch How-To Tutorials →</a>
+      <a class="btn btn-wa btn-lg" href="https://wa.me/919082643562" target="_blank" rel="noopener">Track on WhatsApp →</a>
     </div>
-    <div class="soft-panel soft-panel--white referral-panel">
-      <h3>Share & earn</h3>
-      <p class="muted">Refer a friend and you both get ₹200 off your next order.</p>
-      <button class="btn btn-secondary">Copy referral link</button>
-    </div>
+
+    <p class="thanks-cta-foot">Love your new curls? Tag us <a href="https://www.instagram.com/thecurlcoindia/" target="_blank" rel="noopener">@thecurlcoindia 💛</a></p>
   </div>
-</section>
 
-<section class="section section--sand">
-  <div class="container">
-    <div class="section-head"><div class="left"><span class="eyebrow">Complete your routine</span><h2>Customers also <em>love</em>.</h2></div></div>
-    <div class="product-grid" id="related-grid"></div>
-  </div>
-</section>
-</main>
+  <div data-include="footer"></div>
 
-<div id="site-footer-slot"></div>
-<script src="assets/js/partials.js" defer></script>
-<script src="assets/js/cart.js" defer></script>
-<script src="assets/js/products.js" defer></script>
-<script src="assets/js/main.js" defer></script>
-<script>
-// clear cart on success
-localStorage.removeItem('curlco_cart_v1');
-</script>
-</body></html>
+  <script>
+    function spawnConfetti(){
+      const host = qs('#confetti-host');
+      const colors = ['var(--terracotta)','var(--gold)','var(--walnut)','var(--cream-deep)'];
+      for (let i = 0; i < 20; i++) {
+        const c = document.createElement('span');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + '%';
+        c.style.background = colors[i % colors.length];
+        c.style.animationDelay = (Math.random() * 3) + 's';
+        c.style.animationDuration = (3 + Math.random() * 3) + 's';
+        c.style.width = (6 + Math.random() * 8) + 'px';
+        c.style.height = c.style.width;
+        host.appendChild(c);
+      }
+    }
+
+    function onPageReady(){
+      spawnConfetti();
+      let order = null;
+      try { order = JSON.parse(sessionStorage.getItem('tcc_last_order')); } catch(e) {}
+      if (order) {
+        qs('#thanks-order-id').textContent = 'Order ' + order.orderId;
+        qs('#thanks-items').innerHTML = `
+          <h3 style="font-size:18px; margin-bottom:14px;">Order Items</h3>
+          ${order.items.map(it => `
+            <div class="summary-item">
+              <img src="${it.img}" alt="${it.name}">
+              <div>
+                <div class="si-name">${it.name}</div>
+                <div class="si-qty">Qty: ${it.qty}</div>
+              </div>
+              <div class="si-price">${formatPrice(it.price * it.qty)}</div>
+            </div>`).join('')}
+          <div class="summary-divider"></div>
+          <div class="summary-row"><span>Subtotal</span><span>${formatPrice(order.subtotal)}</span></div>
+          <div class="summary-row"><span>Shipping</span><span>${order.shipping === 0 ? 'Free' : formatPrice(order.shipping)}</span></div>
+          <div class="summary-total"><span>Total Paid</span><span>${formatPrice(order.total)}</span></div>
+        `;
+      } else {
+        qs('#thanks-order-id').textContent = '#TCC-' + Math.floor(10000 + Math.random() * 90000);
+        qs('#thanks-items').innerHTML = `<p style="text-align:center; color:var(--walnut-mid);">Order placed successfully! Details are on their way to your email.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

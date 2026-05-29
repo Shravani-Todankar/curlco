@@ -1,44 +1,76 @@
-<!doctype html>
-<html lang="en" data-root="">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Curl Edit | Curly Hair Blog India | The Curl Co</title>
-<meta name="description" content="Curl tips, the curly girl method India guide, scalp care, refresh routines and more from The Curl Co.">
-<link rel="canonical" href="https://thecurlco.in/blogs/news">
-<link rel="icon" href="assets/img/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/components.css"><link rel="stylesheet" href="assets/css/responsive.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Curl Edit — Blog — The Curl Co.</title>
+  <meta name="description" content="Tips, tutorials, and curl love from The Curl Co. Wash day routines, frizz science, curl type guides, and more.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-<div id="site-header-slot"></div>
+  <div data-include="header"></div>
 
-<main>
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">The Curl Edit</span>
-    <h1>Curl knowledge, <em>decoded</em>.</h1>
-    <p>Curly girl method India, scalp care, refresh routines, ingredient deep-dives — your curly hair education.</p>
-  </div>
-</section>
+  <section class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Blog</div>
+    <h1>The Curl Edit</h1>
+    <p>Tips, tutorials, and curl love — from us to you.</p>
+  </section>
 
-<section class="section">
-  <div class="container">
-    <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span>The Curl Edit</nav>
-    <div class="blog-grid">
-      <a class="blog-card" href="blog-post.html?id=1"><div class="blog-media"><img src="assets/img/blog-1.jpg" alt=""></div><div class="blog-info"><div class="meta">Curl 101 · 5 min</div><h3>Curl learnings from 2025</h3><p>A year of texture experiments, distilled.</p></div></a>
-      <a class="blog-card" href="blog-post.html?id=2"><div class="blog-media"><img src="assets/img/blog-2.jpg" alt=""></div><div class="blog-info"><div class="meta">Scalp · 4 min</div><h3>Dandruff or just dry scalp?</h3><p>How to tell the difference, and what actually works.</p></div></a>
-      <a class="blog-card" href="blog-post.html?id=3"><div class="blog-media"><img src="assets/img/blog-3.jpg" alt=""></div><div class="blog-info"><div class="meta">Trends · 3 min</div><h3>Coloring curls without damage</h3><p>A low-poo approach to bold curl colour.</p></div></a>
-      <a class="blog-card" href="blog-post.html?id=4"><div class="blog-media"><img src="assets/img/blog-4.jpg" alt=""></div><div class="blog-info"><div class="meta">Inspo · 4 min</div><h3>Curls on the red carpet</h3><p>From Bollywood to Vogue Mexico — texture is taking centerstage.</p></div></a>
-      <a class="blog-card" href="blog-post.html?id=5"><div class="blog-media"><img src="https://thecurlco.in/cdn/shop/articles/5.jpg" alt=""></div><div class="blog-info"><div class="meta">Routine · 4 min</div><h3>How to refresh day-3 curls</h3><p>Less product, more technique.</p></div></a>
-      <a class="blog-card" href="blog-post.html?id=6"><div class="blog-media"><img src="https://thecurlco.in/cdn/shop/articles/780_0729.jpg" alt=""></div><div class="blog-info"><div class="meta">Curl 101 · 6 min</div><h3>The CG method, simplified for India</h3><p>Why monsoon and hard water need their own playbook.</p></div></a>
+  <section class="section">
+    <div class="container">
+      <div class="blog-filters" id="blog-filters">
+        <button class="blog-pill active" data-cat="all">All</button>
+        <button class="blog-pill" data-cat="curl-care">Curl Care</button>
+        <button class="blog-pill" data-cat="tutorials">Tutorials</button>
+        <button class="blog-pill" data-cat="science">Curl Science</button>
+        <button class="blog-pill" data-cat="lifestyle">Lifestyle</button>
+      </div>
+      <div class="blog-grid" id="blog-grid"></div>
     </div>
-  </div>
-</section>
-</main>
+  </section>
 
-<div id="site-footer-slot"></div>
-<script src="assets/js/partials.js" defer></script>
-<script src="assets/js/cart.js" defer></script>
-<script src="assets/js/main.js" defer></script>
-</body></html>
+  <div data-include="footer"></div>
+
+  <script>
+    const BLOGS = [
+      { id:1, cat:'curl-care', catLabel:'Curl Care', title:"How to Build a Wash Day Routine That Actually Works", excerpt:"From pre-poo to plopping — the ten steps every Indian curly girl should know, in the right order.", read:'7 min read',
+        img:"https://thecurlco.in/cdn/shop/files/1_e889aa24-4aaa-41a2-8e43-9e71bbccd735.png?crop=center&height=685&v=1776323544&width=625" },
+      { id:2, cat:'tutorials', catLabel:'Tutorials', title:"Plopping vs Diffusing: Which Works for Indian Hair?", excerpt:"We tested both techniques on humid Mumbai mornings. Here's what actually held up past noon.", read:'5 min read',
+        img:"https://thecurlco.in/cdn/shop/files/3_d94d3d2b-8fbe-4cdc-a6e1-0fa570d48f19.png?crop=center&height=685&v=1776324037&width=625" },
+      { id:3, cat:'science', catLabel:'Curl Science', title:"The Science of Frizz — Why Humidity Hates Your Hair", excerpt:"It's not your hair, it's hydrogen bonds. A no-jargon explainer on why your curls poof — and how to stop it.", read:'6 min read',
+        img:"https://thecurlco.in/cdn/shop/files/6_0eea5043-c5be-4b84-853d-769339875136.png?crop=center&height=685&v=1776324160&width=625" },
+      { id:4, cat:'lifestyle', catLabel:'Lifestyle', title:"Curl Type 101: Find Your Pattern in 60 Seconds", excerpt:"2A or 3B? Here's the quickest field guide to identifying your curl pattern — without overthinking it.", read:'4 min read',
+        img:"https://thecurlco.in/cdn/shop/files/5_2a3e1e4e-4847-4678-84d2-30245d40df83.png?crop=center&height=685&v=1776323696&width=625" }
+    ];
+
+    function renderBlogs(cat){
+      const list = cat === 'all' ? BLOGS : BLOGS.filter(b => b.cat === cat);
+      qs('#blog-grid').innerHTML = list.map(b => `
+        <article class="blog-card">
+          <a class="blog-cover" href="#"><img src="${b.img}" alt="${b.title}" loading="lazy"></a>
+          <div class="blog-body">
+            <span class="blog-cat">${b.catLabel}</span>
+            <h3>${b.title}</h3>
+            <p class="excerpt">${b.excerpt}</p>
+            <div class="blog-meta">
+              <span class="read-time">${b.read}</span>
+              <a class="read-more" href="#">Read More →</a>
+            </div>
+          </div>
+        </article>`).join('');
+    }
+
+    function onPageReady(){
+      renderBlogs('all');
+      qsa('.blog-pill').forEach(p => p.addEventListener('click', () => {
+        qsa('.blog-pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        renderBlogs(p.dataset.cat);
+      }));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop by Hair Type — The Curl Co.</title>
+  <meta name="description" content="Find the right curl care for your hair type — wavy (2A–2C) or curly (3A–3C). Curated picks for every coil pattern.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <div data-include="header"></div>
+
+  <section class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Shop by Hair Type</div>
+    <h1>Shop by Your Curl Type</h1>
+    <p>Click your curl pattern to see what's right for your hair.</p>
+    <div class="hair-pills" role="tablist">
+      <button class="hair-pill" data-type="wavy"><span class="symbol">〰</span><span><strong>2A</strong><br><span class="sub">Wavy</span></span></button>
+      <button class="hair-pill" data-type="wavy"><span class="symbol">〰〰</span><span><strong>2B</strong><br><span class="sub">Wavy</span></span></button>
+      <button class="hair-pill" data-type="wavy"><span class="symbol">〰〰〰</span><span><strong>2C</strong><br><span class="sub">Wavy</span></span></button>
+      <button class="hair-pill" data-type="curly"><span class="symbol">🌀</span><span><strong>3A</strong><br><span class="sub">Curly</span></span></button>
+      <button class="hair-pill" data-type="curly"><span class="symbol">🌀🌀</span><span><strong>3B</strong><br><span class="sub">Curly</span></span></button>
+      <button class="hair-pill" data-type="curly"><span class="symbol">🌀🌀🌀</span><span><strong>3C</strong><br><span class="sub">Curly</span></span></button>
+    </div>
+  </section>
+
+  <section class="section" id="wavy">
+    <div class="container">
+      <div class="hair-banner" style="background-image:url('https://thecurlco.in/cdn/shop/files/5_2a3e1e4e-4847-4678-84d2-30245d40df83.png?crop=center&height=685&v=1776323696&width=625');">
+        <div>
+          <span class="eyebrow" style="color:var(--gold-lt);">For Wavy Hair</span>
+          <h2>For Wavy Hair (2A–2C)</h2>
+          <p>Lightweight hold, serious hydration, zero frizz.</p>
+          <a class="btn btn-gold" href="#wavy-grid">Shop Wavy Now</a>
+        </div>
+      </div>
+      <div class="shop-grid" id="wavy-grid"></div>
+    </div>
+  </section>
+
+  <section class="section-alt" id="curly">
+    <div class="container">
+      <div class="hair-banner" style="background-image:url('https://thecurlco.in/cdn/shop/files/4_bb65364f-f2cf-447f-a4da-1db184a71751.png?crop=center&height=685&v=1776323843&width=625');">
+        <div>
+          <span class="eyebrow" style="color:var(--gold-lt);">For Curly Hair</span>
+          <h2>For Curly Hair (3A–3C)</h2>
+          <p>Deep hydration, long-lasting definition, coils that pop.</p>
+          <a class="btn btn-gold" href="#curly-grid">Shop Curly Now</a>
+        </div>
+      </div>
+      <div class="shop-grid" id="curly-grid"></div>
+    </div>
+  </section>
+
+  <div data-include="footer"></div>
+
+  <script>
+    function onPageReady(){
+      const wavy = ALL_ITEMS.filter(p => p.category && p.category.includes('wavy'));
+      const curly = ALL_ITEMS.filter(p => p.category && p.category.includes('curly'));
+      qs('#wavy-grid').innerHTML = wavy.map(p => productCardHTML(p, p.type === 'combo')).join('');
+      qs('#curly-grid').innerHTML = curly.map(p => productCardHTML(p, p.type === 'combo')).join('');
+      qsa('.hair-pill').forEach(p => p.addEventListener('click', () => {
+        const target = p.dataset.type;
+        location.hash = target;
+        document.getElementById(target).scrollIntoView({ behavior:'smooth' });
+        qsa('.hair-pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+      }));
+    }
+  </script>
+</body>
+</html>
