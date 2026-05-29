@@ -18,20 +18,68 @@
     <div class="thanks-check">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
     </div>
-    <h1>Your Curls Are Going to Love This! 🌀</h1>
-    <p class="thanks-sub">Order confirmed! Tracking link coming to your WhatsApp & email.</p>
-    <div class="thanks-order-id" id="thanks-order-id">#TCC-00000</div>
-    <span class="thanks-eta">📦 Estimated delivery: 3–5 business days</span>
+    <h1>Thank You, Curlfriend! 🌀</h1>
+    <p class="thanks-sub" id="thanks-sub">Your order has been placed. We've sent a confirmation to your email and WhatsApp.</p>
+
+    <div class="thanks-meta">
+      <div class="thanks-meta-card">
+        <div class="tm-label">Order Number</div>
+        <div class="tm-value" id="meta-order">TCC-00000</div>
+      </div>
+      <div class="thanks-meta-card">
+        <div class="tm-label">Estimated Delivery</div>
+        <div class="tm-value" id="meta-eta">3–5 working days</div>
+      </div>
+      <div class="thanks-meta-card">
+        <div class="tm-label">Payment Method</div>
+        <div class="tm-value" id="meta-pay">UPI</div>
+      </div>
+    </div>
 
     <div class="thanks-items" id="thanks-items"></div>
 
-    <div class="thanks-ctas">
-      <a class="btn btn-primary btn-lg" href="all-products.html">Continue Shopping →</a>
-      <a class="btn btn-outline btn-lg" href="how-to-use.html">Watch How-To Tutorials →</a>
-      <a class="btn btn-wa btn-lg" href="https://wa.me/919082643562" target="_blank" rel="noopener">Track on WhatsApp →</a>
+    <div class="thanks-track">
+      <div class="tt-text">
+        <strong>Track your order on WhatsApp</strong>
+        <span>Get real-time updates from our curl team</span>
+      </div>
+      <a class="btn btn-wa" href="https://wa.me/919082643562" target="_blank" rel="noopener">Track on WhatsApp →</a>
     </div>
 
-    <p class="thanks-cta-foot">Love your new curls? Tag us <a href="https://www.instagram.com/thecurlcoindia/" target="_blank" rel="noopener">@thecurlcoindia 💛</a></p>
+    <div class="section-head" style="text-align:center; margin-bottom:24px;">
+      <span class="eyebrow">What to do next</span>
+      <h2 style="font-size:28px;">Make the most of your curl journey</h2>
+    </div>
+    <div class="thanks-next">
+      <a class="thanks-next-card" href="how-to-use.html">
+        <div class="tn-icon">🎥</div>
+        <h4>Watch How-To Tutorials</h4>
+        <p>Get the most out of your new products with our 3-step routine guides.</p>
+        <span class="tn-cta">Watch now →</span>
+      </a>
+      <a class="thanks-next-card" href="https://www.instagram.com/thecurlcoindia/" target="_blank" rel="noopener">
+        <div class="tn-icon">💬</div>
+        <h4>Join our Curl Community</h4>
+        <p>Tag <strong>@thecurlcoindia</strong> in your curl pics to get featured.</p>
+        <span class="tn-cta">Follow on Instagram →</span>
+      </a>
+      <a class="thanks-next-card" href="#" onclick="event.preventDefault(); showToast('Referral program coming soon!');">
+        <div class="tn-icon">🎁</div>
+        <h4>Refer a Friend & Earn ₹200</h4>
+        <p>Share The Curl Co. with a friend — you both get ₹200 off.</p>
+        <span class="tn-cta">Get my code →</span>
+      </a>
+    </div>
+
+    <div class="thanks-recommend">
+      <h3>You may also love</h3>
+      <div class="grid-4" id="recommend-grid"></div>
+    </div>
+
+    <div class="thanks-brand-block">
+      <p class="pull-quote">"Curly hair is not a problem to be solved. It's a crown to be celebrated."</p>
+      <div class="signature">— Isha & Rutvika, Founders</div>
+    </div>
   </div>
 
   <div data-include="footer"></div>
@@ -39,14 +87,14 @@
   <script>
     function spawnConfetti(){
       const host = qs('#confetti-host');
-      const colors = ['var(--terracotta)','var(--gold)','var(--walnut)','var(--cream-deep)'];
+      const colors = ['var(--terracotta)','var(--gold)','var(--mint)','var(--rose)'];
       for (let i = 0; i < 20; i++) {
         const c = document.createElement('span');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + '%';
         c.style.background = colors[i % colors.length];
-        c.style.animationDelay = (Math.random() * 3) + 's';
-        c.style.animationDuration = (3 + Math.random() * 3) + 's';
+        c.style.animationDelay = (Math.random() * 5) + 's';
+        c.style.animationDuration = (6 + Math.random() * 4) + 's';
         c.style.width = (6 + Math.random() * 8) + 'px';
         c.style.height = c.style.width;
         host.appendChild(c);
@@ -57,10 +105,17 @@
       spawnConfetti();
       let order = null;
       try { order = JSON.parse(sessionStorage.getItem('tcc_last_order')); } catch(e) {}
+
+      const payMap = { upi:'UPI', card:'Card', cod:'Cash on Delivery' };
       if (order) {
-        qs('#thanks-order-id').textContent = 'Order ' + order.orderId;
+        qs('#meta-order').textContent = order.orderId;
+        qs('#meta-eta').textContent = order.eta || '3–5 working days';
+        qs('#meta-pay').textContent = payMap[order.payment] || 'UPI';
+        if (order.address?.email) {
+          qs('#thanks-sub').innerHTML = `Your order has been placed. We've sent a confirmation to <strong>${order.address.email}</strong> and WhatsApp.`;
+        }
         qs('#thanks-items').innerHTML = `
-          <h3 style="font-size:18px; margin-bottom:14px;">Order Items</h3>
+          <h3 style="font-size:20px; margin-bottom:16px;">Order Items</h3>
           ${order.items.map(it => `
             <div class="summary-item">
               <img src="${it.img}" alt="${it.name}">
@@ -73,11 +128,17 @@
           <div class="summary-divider"></div>
           <div class="summary-row"><span>Subtotal</span><span>${formatPrice(order.subtotal)}</span></div>
           <div class="summary-row"><span>Shipping</span><span>${order.shipping === 0 ? 'Free' : formatPrice(order.shipping)}</span></div>
+          ${order.discount ? `<div class="summary-row" style="color:var(--success)"><span>Discount (${order.promo || 'PROMO'})</span><span>−${formatPrice(order.discount)}</span></div>` : ''}
           <div class="summary-total"><span>Total Paid</span><span>${formatPrice(order.total)}</span></div>
         `;
+        // Recommendations: exclude items in order
+        const orderedIds = new Set(order.items.map(i => i.id));
+        const recs = PRODUCTS.filter(p => !orderedIds.has(p.id)).slice(0, 4);
+        qs('#recommend-grid').innerHTML = recs.map(p => productCardHTML(p)).join('');
       } else {
-        qs('#thanks-order-id').textContent = '#TCC-' + Math.floor(10000 + Math.random() * 90000);
+        qs('#meta-order').textContent = 'TCC-' + Math.floor(10000 + Math.random() * 90000);
         qs('#thanks-items').innerHTML = `<p style="text-align:center; color:var(--walnut-mid);">Order placed successfully! Details are on their way to your email.</p>`;
+        qs('#recommend-grid').innerHTML = PRODUCTS.slice(0, 4).map(p => productCardHTML(p)).join('');
       }
     }
   </script>

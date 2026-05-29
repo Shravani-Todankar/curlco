@@ -13,43 +13,57 @@
 <body>
   <div data-include="header"></div>
 
-  <section class="page-hero">
-    <div class="breadcrumb"><a href="cart.html">Cart</a> / Checkout</div>
-    <h1>Checkout</h1>
-  </section>
-
   <div class="checkout-layout">
     <div class="checkout-form">
-      <div class="progress-steps">
-        <div class="pstep active" data-step="1"><span class="pnum">1</span> Delivery</div>
-        <div class="pstep" data-step="2"><span class="pnum">2</span> Payment</div>
-        <div class="pstep" data-step="3"><span class="pnum">3</span> Review</div>
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-line"></div>
+          <div class="progress-line-fill" id="prog-line"></div>
+          <div class="progress-step active" data-step="1">
+            <div class="progress-circle"><span class="pnum-text">1</span></div>
+            <div class="progress-label">Delivery</div>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="progress-circle"><span class="pnum-text">2</span></div>
+            <div class="progress-label">Payment</div>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="progress-circle"><span class="pnum-text">3</span></div>
+            <div class="progress-label">Review</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Step 1 -->
+      <!-- Step 1: Delivery -->
       <section class="form-section" id="step-1">
         <h3>Contact & Delivery</h3>
+        <p class="fs-sub">We'll send tracking updates to your email & WhatsApp.</p>
         <div class="form-grid">
-          <div class="form-field"><label>Full Name</label><input type="text" id="f-name" required></div>
-          <div class="form-field"><label>Email</label><input type="email" id="f-email" required></div>
-          <div class="form-field full"><label>Phone</label><input type="tel" id="f-phone" required pattern="[0-9]{10}"></div>
-          <div class="form-field full"><label>Address Line 1</label><input type="text" id="f-addr" required></div>
-          <div class="form-field"><label>City</label><input type="text" id="f-city" required></div>
-          <div class="form-field"><label>State</label><input type="text" id="f-state" required></div>
-          <div class="form-field"><label>Pincode</label><input type="text" id="f-pin" required pattern="[0-9]{6}"></div>
+          <div class="form-field"><label>Full Name</label><input type="text" id="f-name" required><span class="err-msg"></span></div>
+          <div class="form-field"><label>Email</label><input type="email" id="f-email" required><span class="err-msg"></span></div>
+          <div class="form-field"><label>Phone</label><input type="tel" id="f-phone" required maxlength="10" placeholder="10-digit mobile"><span class="err-msg"></span></div>
+          <div class="form-field"><label>Country</label><input type="text" value="India" disabled></div>
+          <div class="form-field full"><label>Address</label><input type="text" id="f-addr" required placeholder="House no, street, area"><span class="err-msg"></span></div>
+          <div class="form-field full"><button type="button" class="use-location-btn" onclick="showToast('Geolocation coming soon')">📍 Use my location</button></div>
         </div>
-        <button class="btn btn-primary btn-lg" style="width:100%; justify-content:center; margin-top:20px;" onclick="goStep(2)">Continue to Payment →</button>
+        <div class="form-grid cols-3" style="margin-top:14px;">
+          <div class="form-field"><label>City</label><input type="text" id="f-city" required><span class="err-msg"></span></div>
+          <div class="form-field"><label>State</label><input type="text" id="f-state" required><span class="err-msg"></span></div>
+          <div class="form-field"><label>Pincode</label><input type="text" id="f-pin" required maxlength="6" placeholder="6-digit"><span class="err-msg"></span></div>
+        </div>
+        <button class="btn btn-primary btn-lg" style="width:100%; justify-content:center; margin-top:24px;" onclick="goStep(2)">Continue to Payment →</button>
       </section>
 
-      <!-- Step 2 -->
+      <!-- Step 2: Payment -->
       <section class="form-section" id="step-2" style="display:none;">
         <h3>Payment</h3>
+        <p class="fs-sub">All transactions are secure and encrypted.</p>
         <div class="payment-options">
           <label class="pay-option selected" data-pay="upi">
             <input type="radio" name="pay" value="upi" checked>
             <div>
               <div class="pay-label">UPI</div>
-              <div class="pay-sub">Pay via any UPI app (GPay, PhonePe, Paytm)</div>
+              <div class="pay-sub">Pay via GPay, PhonePe, Paytm or any UPI app</div>
             </div>
           </label>
           <div class="pay-details" id="upi-details">
@@ -60,7 +74,7 @@
             <input type="radio" name="pay" value="card">
             <div>
               <div class="pay-label">Credit / Debit Card</div>
-              <div class="pay-sub">Visa, Mastercard, Rupay accepted</div>
+              <div class="pay-sub">Visa, Mastercard, RuPay accepted</div>
             </div>
           </label>
           <div class="pay-details" id="card-details">
@@ -69,6 +83,12 @@
               <div class="form-field full"><label>Name on Card</label><input type="text"></div>
               <div class="form-field"><label>Expiry</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
               <div class="form-field"><label>CVV</label><input type="text" maxlength="3"></div>
+              <div class="form-field full">
+                <div class="pay-secure-note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  We never store card details on our servers.
+                </div>
+              </div>
             </div>
           </div>
 
@@ -80,34 +100,67 @@
             </div>
           </label>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="goStep(1)" style="margin-right:8px;">← Back</button>
-        <button class="btn btn-primary btn-lg" style="margin-top:8px;" onclick="goStep(3)">Review Order →</button>
+
+        <div style="margin-top:18px;">
+          <label style="font-size:12px; color:var(--walnut-mid); text-transform:uppercase; letter-spacing:0.06em; font-weight:500;">Promo Code</label>
+          <div class="promo-row">
+            <input type="text" id="promo-input" placeholder="Enter code (try CURL10)">
+            <button onclick="applyPromo()">Apply</button>
+          </div>
+          <div id="promo-msg" style="font-size:12px; margin-top:8px;"></div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:24px;">
+          <button class="btn btn-outline btn-sm" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary btn-lg" style="flex:1;" onclick="goStep(3)">Review Order →</button>
+        </div>
       </section>
 
-      <!-- Step 3 -->
+      <!-- Step 3: Review -->
       <section class="form-section" id="step-3" style="display:none;">
         <h3>Review Your Order</h3>
+        <p class="fs-sub">Double check, then place your order.</p>
         <div class="review-block" id="rev-address"></div>
         <div class="review-block" id="rev-payment"></div>
         <div class="review-block" id="rev-items"></div>
-        <button class="btn btn-outline btn-sm" onclick="goStep(2)" style="margin-right:8px;">← Back</button>
-        <button class="btn btn-primary btn-lg" style="margin-top:8px;" onclick="placeOrder()">Place Order</button>
+        <div class="review-block" id="rev-totals"></div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn btn-outline btn-sm" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary btn-lg" style="flex:1;" onclick="placeOrder()">Place Order</button>
+        </div>
       </section>
 
-      <div class="checkout-trust">
-        <span>🔒 Secure Checkout</span>
-        <span>🔄 Easy Returns</span>
-        <span>📦 COD Available</span>
-        <span>🇮🇳 Made in India</span>
+      <div class="checkout-trust-band">
+        <div class="ct-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Secure Checkout
+        </div>
+        <div class="ct-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Easy Returns
+        </div>
+        <div class="ct-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          COD Available
+        </div>
+        <div class="ct-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10A15 15 0 0 1 8 12a15 15 0 0 1 4-10z"/></svg>
+          Made in India
+        </div>
       </div>
     </div>
 
-    <aside class="summary-card" style="height:fit-content;">
+    <aside class="summary-card">
       <h3>Order Summary</h3>
       <div id="checkout-items"></div>
+      <div class="checkout-shipbar">
+        <p id="co-shipnote">Add ₹X more for free shipping</p>
+        <div class="bar-track"><div class="bar-fill" id="co-shipfill" style="width:0%"></div></div>
+      </div>
       <div class="summary-divider"></div>
       <div class="summary-row"><span>Subtotal</span><span id="co-sub">₹0</span></div>
       <div class="summary-row"><span>Shipping</span><span id="co-ship">Free</span></div>
+      <div class="summary-row" id="co-discount-row" style="display:none; color:var(--success);"><span>Discount (<span id="co-promo-label"></span>)</span><span id="co-discount">−₹0</span></div>
       <div class="summary-divider"></div>
       <div class="summary-total"><span>Total</span><span id="co-total">₹0</span></div>
     </aside>
@@ -117,36 +170,95 @@
 
   <script>
     let currentStep = 1;
+    let appliedPromo = null;
+    let discount = 0;
 
-    function goStep(n){
-      // Validate step 1
-      if (n > 1 && currentStep === 1) {
-        const required = ['#f-name','#f-email','#f-phone','#f-addr','#f-city','#f-state','#f-pin'];
-        for (let sel of required) {
-          const el = qs(sel);
-          if (!el.value.trim()) { el.focus(); el.style.borderColor = 'var(--error)'; showToast('Please fill all delivery fields'); return; }
-          el.style.borderColor = '';
-        }
-      }
-      currentStep = n;
-      qsa('.pstep').forEach(s => {
+    function setProgress(n){
+      qsa('.progress-step').forEach(s => {
         const step = parseInt(s.dataset.step);
         s.classList.remove('active','done');
         if (step < n) s.classList.add('done');
         else if (step === n) s.classList.add('active');
       });
+      // Animate fill
+      const fill = qs('#prog-line');
+      if (fill) {
+        const pct = ((n - 1) / 2) * 100;
+        fill.style.width = `calc(${pct}% )`;
+      }
+    }
+
+    function validateStep1(){
+      const required = [
+        { sel: '#f-name', test: v => v.length >= 2, msg: 'Name required' },
+        { sel: '#f-email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), msg: 'Please enter a valid email.' },
+        { sel: '#f-phone', test: v => /^[0-9]{10}$/.test(v), msg: 'Phone must be 10 digits.' },
+        { sel: '#f-addr', test: v => v.length >= 5, msg: 'Please enter address' },
+        { sel: '#f-city', test: v => v.length >= 2, msg: 'City required' },
+        { sel: '#f-state', test: v => v.length >= 2, msg: 'State required' },
+        { sel: '#f-pin', test: v => /^[0-9]{6}$/.test(v), msg: 'Pincode must be 6 digits.' }
+      ];
+      let ok = true;
+      for (const f of required) {
+        const el = qs(f.sel);
+        const wrap = el.closest('.form-field');
+        const err = wrap?.querySelector('.err-msg');
+        if (!f.test(el.value.trim())) {
+          wrap?.classList.add('invalid');
+          if (err) err.textContent = f.msg;
+          if (ok) el.focus();
+          ok = false;
+        } else {
+          wrap?.classList.remove('invalid');
+          if (err) err.textContent = '';
+        }
+      }
+      return ok;
+    }
+
+    function goStep(n){
+      if (n > 1 && currentStep === 1 && !validateStep1()) {
+        showToast('Please correct the highlighted fields');
+        return;
+      }
+      currentStep = n;
+      setProgress(n);
       qsa('.form-section').forEach((sec,i) => sec.style.display = (i+1 === n) ? 'block' : 'none');
       if (n === 3) buildReview();
-      window.scrollTo({ top:0, behavior:'smooth' });
+      window.scrollTo({ top: 0, behavior:'smooth' });
+    }
+
+    function applyPromo(){
+      const code = qs('#promo-input').value.trim().toUpperCase();
+      const msg = qs('#promo-msg');
+      if (!code) return;
+      if (code.startsWith('CURL')) {
+        appliedPromo = code;
+        const sub = getCartSubtotal();
+        discount = Math.round(sub * 0.10);
+        msg.style.color = 'var(--success)';
+        msg.textContent = `✓ ${code} applied — 10% off`;
+        renderCheckoutSummary();
+      } else {
+        appliedPromo = null;
+        discount = 0;
+        msg.style.color = 'var(--error)';
+        msg.textContent = 'Invalid code';
+        renderCheckoutSummary();
+      }
     }
 
     function buildReview(){
-      qs('#rev-address').innerHTML = `<strong>Shipping to</strong>${qs('#f-name').value}<br>${qs('#f-addr').value}, ${qs('#f-city').value}, ${qs('#f-state').value} – ${qs('#f-pin').value}<br>📞 ${qs('#f-phone').value} · ✉ ${qs('#f-email').value}`;
+      qs('#rev-address').innerHTML = `<strong>Shipping To</strong>${qs('#f-name').value}<br>${qs('#f-addr').value}, ${qs('#f-city').value}, ${qs('#f-state').value} – ${qs('#f-pin').value}<br>📞 ${qs('#f-phone').value} · ✉ ${qs('#f-email').value}`;
       const pay = document.querySelector('input[name="pay"]:checked').value;
       const map = { upi:'UPI', card:'Credit / Debit Card', cod:'Cash on Delivery' };
       qs('#rev-payment').innerHTML = `<strong>Payment Method</strong>${map[pay]}`;
       const items = getCart();
-      qs('#rev-items').innerHTML = `<strong>Items</strong>` + items.map(i => `• ${i.name} × ${i.qty} — ${formatPrice(i.price * i.qty)}`).join('<br>');
+      qs('#rev-items').innerHTML = `<strong>Items (${items.length})</strong>` + items.map(i => `• ${i.name} × ${i.qty} — ${formatPrice(i.price * i.qty)}`).join('<br>');
+      const sub = getCartSubtotal();
+      const ship = sub >= FREE_SHIP ? 0 : 50;
+      const total = sub + ship - discount;
+      qs('#rev-totals').innerHTML = `<strong>Order Total</strong>Subtotal: ${formatPrice(sub)}<br>Shipping: ${ship === 0 ? 'Free' : formatPrice(ship)}${discount ? `<br>Discount: −${formatPrice(discount)}` : ''}<br><strong style="color:var(--terracotta); font-size:18px; margin-top:8px;">Total: ${formatPrice(total)}</strong>`;
     }
 
     function renderCheckoutSummary(){
@@ -155,16 +267,30 @@
         <div class="summary-item">
           <img src="${it.img}" alt="${it.name}">
           <div>
-            <div class="si-name">${it.name}</div>
+            <div class="si-name">${it.name.split('(')[0].trim()}</div>
             <div class="si-qty">Qty: ${it.qty}</div>
           </div>
           <div class="si-price">${formatPrice(it.price * it.qty)}</div>
         </div>`).join('');
       const sub = getCartSubtotal();
       const ship = sub >= FREE_SHIP ? 0 : 50;
+      const total = sub + ship - discount;
       qs('#co-sub').textContent = formatPrice(sub);
       qs('#co-ship').textContent = ship === 0 ? 'Free' : formatPrice(ship);
-      qs('#co-total').textContent = formatPrice(sub + ship);
+      qs('#co-total').textContent = formatPrice(total);
+      const pct = Math.min(100, (sub / FREE_SHIP) * 100);
+      qs('#co-shipfill').style.width = pct + '%';
+      const note = qs('#co-shipnote');
+      if (sub >= FREE_SHIP) note.innerHTML = '🎉 <strong>Free shipping unlocked!</strong>';
+      else note.innerHTML = `Add <strong>${formatPrice(FREE_SHIP - sub)}</strong> more for free shipping`;
+      const drow = qs('#co-discount-row');
+      if (discount > 0) {
+        drow.style.display = 'flex';
+        qs('#co-discount').textContent = '−' + formatPrice(discount);
+        qs('#co-promo-label').textContent = appliedPromo || 'PROMO';
+      } else {
+        drow.style.display = 'none';
+      }
     }
 
     function placeOrder(){
@@ -172,15 +298,22 @@
       if (items.length === 0) { showToast('Your cart is empty'); window.location.href = 'all-products.html'; return; }
       const sub = getCartSubtotal();
       const ship = sub >= FREE_SHIP ? 0 : 50;
-      const orderId = '#TCC-' + Math.floor(10000 + Math.random() * 90000);
+      const total = sub + ship - discount;
+      const orderId = 'TCC-' + Math.floor(10000 + Math.random() * 90000);
+      const eta = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000);
+      const etaStr = eta.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
       const snapshot = {
         items,
         subtotal: sub,
         shipping: ship,
-        total: sub + ship,
+        discount,
+        promo: appliedPromo,
+        total,
         address: { name: qs('#f-name').value, addr: qs('#f-addr').value, city: qs('#f-city').value, state: qs('#f-state').value, pin: qs('#f-pin').value, phone: qs('#f-phone').value, email: qs('#f-email').value },
         payment: document.querySelector('input[name="pay"]:checked').value,
-        orderId
+        orderId,
+        eta: etaStr,
+        date: new Date().toISOString()
       };
       sessionStorage.setItem('tcc_last_order', JSON.stringify(snapshot));
       clearCart();
@@ -190,6 +323,7 @@
     function onPageReady(){
       if (getCart().length === 0) { window.location.href = 'cart.html'; return; }
       renderCheckoutSummary();
+      setProgress(1);
       qsa('.pay-option').forEach(opt => opt.addEventListener('click', () => {
         qsa('.pay-option').forEach(o => o.classList.remove('selected'));
         opt.classList.add('selected');
